@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disposición de Materiales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Selectores principales compactos -->
+        <div id="selectors_frame">
+            <select id="equipo_menu" class="form-select form-select-blanco">
+                <option value="Espada">Espada</option>
+                <option value="Pecho">Pecho</option>
+                <option value="Botas">Botas</option>
+                <option value="Casco">Casco</option>
+                <option value="Guantes">Guantes</option>
+                <option value="Cinturón">Cinturón</option>
+            </select>
+            
+            <select id="clase_menu" class="form-select form-select-blanco">
+                <option value="Normal">Normal</option>
+                <option value="Campeón">Campeón</option>
+                <option value="Planewalker">Planewalker</option>
+                <option value="Lord">Lord</option>
+                <option value="Noble Lord">Noble Lord</option>
+            </select>
+            
+            <select id="nivel_menu" class="form-select form-select-blanco">
+                <option value="Nvl 1">Nvl 1</option>
+                <option value="Nvl 2">Nvl 2</option>
+                <option value="Nvl 3">Nvl 3</option>
+                <option value="Nvl 4">Nvl 4</option>
+                <option value="Nvl 5">Nvl 5</option>
+            </select>
+            
+            <select id="color_menu" class="form-select form-select-blanco">
+                <option value="Blanco">Blanco</option>
+                <option value="Verde">Verde</option>
+                <option value="Azul">Azul</option>
+                <option value="Morado">Morado</option>
+                <option value="Dorado">Dorado</option>
+            </select>
+        </div>
+
+        <!-- Marco de materiales -->
+        <div id="materials_frame">
+            <!-- Fila superior (material 3 y 4) -->
+            <div class="material-row top-row">
+                <!-- Material 3 -->
+                <div class="material-container">
+                    <div class="material-box" id="material3_box">
+                        <span class="material-text" id="material3_text">Material 3</span>
+                        <img class="material-image" id="material3_image" src="" alt="">
+                    </div>
+                    <select class="form-select form-select-blanco material-color-menu" id="material3_color_menu">
+                        <option value="blanco">Blanco</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="morado">Morado</option>
+                        <option value="dorado">Dorado</option>
+                    </select>
+                </div>
+
+                <!-- Material 4 -->
+                <div class="material-container">
+                    <div class="material-box" id="material4_box">
+                        <span class="material-text" id="material4_text">Material 4</span>
+                        <img class="material-image" id="material4_image" src="" alt="">
+                    </div>
+                    <select class="form-select form-select-blanco material-color-menu" id="material4_color_menu">
+                        <option value="blanco">Blanco</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="morado">Morado</option>
+                        <option value="dorado">Dorado</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Fila inferior (material 1 y 2) -->
+            <div class="material-row bottom-row">
+                <!-- Material 1 -->
+                <div class="material-container">
+                    <div class="material-box" id="material1_box">
+                        <span class="material-text" id="material1_text">Material 1</span>
+                        <img class="material-image" id="material1_image" src="" alt="">
+                    </div>
+                    <select class="form-select form-select-blanco material-color-menu" id="material1_color_menu">
+                        <option value="blanco">Blanco</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="morado">Morado</option>
+                        <option value="dorado">Dorado</option>
+                    </select>
+                </div>
+
+                <!-- Material 2 -->
+                <div class="material-container">
+                    <div class="material-box" id="material2_box">
+                        <span class="material-text" id="material2_text">Material 2</span>
+                        <img class="material-image" id="material2_image" src="" alt="">
+                    </div>
+                    <select class="form-select form-select-blanco material-color-menu" id="material2_color_menu">
+                        <option value="blanco">Blanco</option>
+                        <option value="verde">Verde</option>
+                        <option value="azul">Azul</option>
+                        <option value="morado">Morado</option>
+                        <option value="dorado">Dorado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marco base -->
+        <div id="base_frame">
+            <div class="material-container">
+                <div class="material-box" id="base_box">
+                    <span class="material-text" id="base_text">Base</span>
+                    <img class="material-image" id="base_image" src="" alt="">
+                </div>
+                <select class="form-select form-select-blanco base-color-menu" id="base_color_menu">
+                    <option value="Blanco">Blanco</option>
+                    <option value="Morado">Morado</option>
+                    <option value="Dorado">Dorado</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

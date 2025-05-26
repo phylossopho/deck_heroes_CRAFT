@@ -1,0 +1,157 @@
+:root {
+    --color-blanco: #fefefe;
+    --color-verde: #b6e7b0;
+    --color-azul: #a0c4ff;
+    --color-morado: #caa8f5;
+    --color-dorado: #f9dd65;
+    --color-default-bg: #e5e5e5;
+    --color-locked-bg: #ccc;
+    --color-text: #222;
+    --color-background-dark: #3a3a3a;
+    --color-selector-bg: #4a4a4a;
+}
+
+body {
+    background-color: var(--color-background-dark);
+    color: var(--color-blanco);
+}
+
+.container {
+    max-width: 1020px;
+    margin: 0 auto;
+    background-color: var(--color-background-dark);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#selectors_frame .form-select {
+    border: 1px solid #555;
+    font-weight: bold;
+}
+
+.form-select.form-select-blanco { background-color: var(--color-blanco); color: var(--color-text); }
+.form-select.form-select-verde { background-color: var(--color-verde); color: var(--color-text); }
+.form-select.form-select-azul { background-color: var(--color-azul); color: var(--color-text); }
+.form-select.form-select-morado { background-color: var(--color-morado); color: var(--color-text); }
+.form-select.form-select-dorado { background-color: var(--color-dorado); color: #333; }
+
+.material-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    margin: 0 15px;
+}
+
+.material-box {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #555;
+    background-color: var(--color-default-bg);
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+
+.material-box.locked {
+    background-color: var(--color-locked-bg);
+    color: gray;
+    cursor: not-allowed;
+}
+
+.material-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: none;
+}
+
+.material-text {
+    display: block;
+    word-wrap: break-word;
+}
+
+.material-color-menu, .base-color-menu {
+    width: 100%;
+    min-width: 80px;
+    max-width: 80px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Disposición de materiales */
+#materials_frame {
+    position: relative;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.material-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.top-row {
+    justify-content: center;
+    gap: 100px; /* Separación entre material 3 y 4 */
+}
+
+.bottom-row {
+    justify-content: center;
+    gap: 60px; /* Separación entre material 1 y 2 */
+}
+
+#base_frame {
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+/* Añade esto al final de tu style.css */
+
+/* Selectores principales compactos */
+#selectors_frame {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#selectors_frame .form-select {
+    width: auto;
+    min-width: 120px; /* Ancho mínimo para que se vea bien el texto */
+    flex-grow: 0; /* Evita que se expandan */
+}
+
+/* Ajuste de posición de materiales */
+.top-row {
+    gap: 240px !important; /* Separación aumentada a 200px entre 3 y 4 */
+    margin-bottom: 0px; /* Más espacio entre filas */
+}
+
+.bottom-row {
+    gap: 60px; /* Mantenemos 60px entre 1 y 2 */
+}
+
+/* Centrado perfecto */
+#materials_frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px; /* Aumentamos altura para mejor espaciado */
+}
