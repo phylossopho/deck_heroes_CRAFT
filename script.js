@@ -117,48 +117,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (clase === "Normal") {
             if (nivel === "Nvl 1" && colorMenu.value === "Blanco") { baseStateDisabled = true; imageName = deniedImageName; }
             else { baseTextContent = `Equipo de\nnivel ${nivel.replace("Nvl ", "")}\no menor`; }
-        } else if (clase === "Campeón") { baseTextContent = `${equipo}\nNvl 4`; imageName = `${equipo}.png`; }
-        else if (clase === "Planewalker") { baseTextContent = `${equipo}\nNvl 5`; imageName = `${equipo}.png`; }
-        else if (clase === "Lord") { baseTextContent = `${equipo}\nNvl 5`; imageName = `${equipo}.png`; }
-        else if (clase === "Noble Lord") { baseTextContent = `${equipo} Lord\nNvl 5`; imageName = `${equipo}.png`; }
+        } else if (clase === "Campeón") { baseTextContent = `${equipo}\nNvl 4`; imageName = `${equipo.toLowerCase()}.png`; }
+        else if (clase === "Planewalker") { baseTextContent = `${equipo}\nNvl 5`; imageName = `${equipo.toLowerCase()}.png`; }
+        else if (clase === "Lord") { baseTextContent = `${equipo}\nNvl 5`; imageName = `${equipo.toLowerCase()}.png`; }
+        else if (clase === "Noble Lord") { baseTextContent = `${equipo} Lord\nNvl 5`; imageName = `${equipo.toLowerCase()}.png`; }
 
         baseTxtSpan.innerText = baseTextContent;
         if (imageName) {
-            baseImg.src = `images/${imageName}`;  // Ruta modificada
+            baseImg.src = `images/${encodeURIComponent(imageName)}`; // Encode URI para espacios
             baseImg.alt = baseTextContent || equipo;
             baseImg.onload = () => { baseImg.style.display = 'block'; baseTxtSpan.style.display = 'none'; };
-            baseImg.onerror = () => { 
-                console.error("Error al cargar imagen base:", baseImg.src);
-                baseImg.style.display = 'none'; 
-                baseTxtSpan.style.display = 'block';
-            };
-            
-            if(baseImg.complete && baseImg.naturalHeight !== 0) {
-                baseImg.style.display = 'block'; 
-                baseTxtSpan.style.display = 'none';
-            }
-            else if (baseImg.complete) {
-                baseImg.style.display = 'none'; 
-                baseTxtSpan.style.display = 'block';
-            }
-        } else { 
-            baseImg.style.display = 'none'; 
-            baseTxtSpan.style.display = 'block'; 
-        }
+            baseImg.onerror = () => { baseImg.style.display = 'none'; baseTxtSpan.style.display = 'block'; /*console.error("Error img base:", baseImg.src);*/};
+            // Forzar visualización inicial si no hay onload/onerror inmediato
+            if(baseImg.complete && baseImg.naturalHeight !== 0) {baseImg.style.display = 'block'; baseTxtSpan.style.display = 'none';}
+            else if (baseImg.complete) {baseImg.style.display = 'none'; baseTxtSpan.style.display = 'block';}
+
+
+        } else { baseImg.style.display = 'none'; baseTxtSpan.style.display = 'block'; }
 
         baseElement.colorMenu.disabled = baseStateDisabled;
         if (baseStateDisabled) {
-            baseBox.classList.add('locked'); 
-            baseBox.style.backgroundColor = colors["locked_bg"]; 
-            baseBox.style.color = 'gray';
+            baseBox.classList.add('locked'); baseBox.style.backgroundColor = colors["locked_bg"]; baseBox.style.color = 'gray';
             if (updateColorVarAndHideMenu) baseElement.colorMenu.value = "Blanco";
-            if (baseColorMenuVisible && updateColorVarAndHideMenu) { 
-                baseElement.colorMenu.style.display = 'none'; 
-                baseColorMenuVisible = false; 
-            }
+            if (baseColorMenuVisible && updateColorVarAndHideMenu) { baseElement.colorMenu.style.display = 'none'; baseColorMenuVisible = false; }
         } else {
-            baseBox.classList.remove('locked'); 
-            const currentBaseColor = baseElement.colorMenu.value;
+            baseBox.classList.remove('locked'); const currentBaseColor = baseElement.colorMenu.value;
             baseBox.style.backgroundColor = colors[currentBaseColor] || colors["default_bg"];
             baseBox.style.color = (currentBaseColor === "Dorado" ? '#333' : colors["text_color"]);
         }
@@ -166,48 +149,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateMaterialsNames(equipo, clase) {
         const map = {
-            "Normal": { 
-                "Espada": {"m1":"Maxilar", "m2":"Garra", "m3":"Hoja", "m4":"Césped"}, 
-                "Pecho": {"m1":"Maxilar", "m2":"Garra", "m3":"Hoja", "m4":"Césped"}, 
-                "Botas": {"m1":"Nudo", "m2":"Acero", "m3":"Pluma", "m4":"Extraer"}, 
-                "Casco": {"m1":"Nudo", "m2":"Acero", "m3":"Pluma", "m4":"Extraer"}, 
-                "Guantes": {"m1":"Diente de sierra", "m2":"Pelaje", "m3":"Cristal", "m4":"Stardust"}, 
-                "Cinturón": {"m1":"Diente de sierra", "m2":"Pelaje", "m3":"Cristal", "m4":"Stardust"} 
-            },
-            "Campeón": { 
-                "Espada": {"m1":"Quijada ácida", "m2":"Oro talon", "m3":"Hoja de jade", "m4":"Ámbar hierba"}, 
-                "Pecho": {"m1":"Quijada ácida", "m2":"Oro talon", "m3":"Hoja de jade", "m4":"Ámbar hierba"}, 
-                "Botas": {"m1":"Carbonizado gnarl", "m2":"Acero reforzado", "m3":"Pluma stick", "m4":"Extracto destilado"}, 
-                "Casco": {"m1":"Carbonizado gnarl", "m2":"Acero reforzado", "m3":"Pluma stick", "m4":"Extracto destilado"}, 
-                "Guantes": {"m1":"Razor diente de sierra", "m2":"Piel de terciopelo", "m3":"Crystal mystic", "m4":"Tempest stardust"}, 
-                "Cinturón": {"m1":"Razor diente de sierra", "m2":"Piel de terciopelo", "m3":"Crystal mystic", "m4":"Tempest stardust"} 
-            },
+            "Normal": { "Espada": {"m1":"Maxilar", "m2":"Garra", "m3":"Hoja", "m4":"Césped"}, "Pecho": {"m1":"Maxilar", "m2":"Garra", "m3":"Hoja", "m4":"Césped"}, "Botas": {"m1":"Nudo", "m2":"Acero", "m3":"Pluma", "m4":"Extraer"}, "Casco": {"m1":"Nudo", "m2":"Acero", "m3":"Pluma", "m4":"Extraer"}, "Guantes": {"m1":"Diente de sierra", "m2":"Pelaje", "m3":"Cristal", "m4":"Stardust"}, "Cinturón": {"m1":"Diente de sierra", "m2":"Pelaje", "m3":"Cristal", "m4":"Stardust"} },
+            "Campeón": { "Espada": {"m1":"Quijada ácida", "m2":"Oro talon", "m3":"Hoja de jade", "m4":"Ámbar hierba"}, "Pecho": {"m1":"Quijada ácida", "m2":"Oro talon", "m3":"Hoja de jade", "m4":"Ámbar hierba"}, "Botas": {"m1":"Carbonizado gnarl", "m2":"Acero reforzado", "m3":"Pluma stick", "m4":"Extracto destilado"}, "Casco": {"m1":"Carbonizado gnarl", "m2":"Acero reforzado", "m3":"Pluma stick", "m4":"Extracto destilado"}, "Guantes": {"m1":"Razor diente de sierra", "m2":"Piel de terciopelo", "m3":"Crystal mystic", "m4":"Tempest stardust"}, "Cinturón": {"m1":"Razor diente de sierra", "m2":"Piel de terciopelo", "m3":"Crystal mystic", "m4":"Tempest stardust"} },
             "Lord": { "all": {"m1":"Voluntad del emperador", "m2":"Guardia del emperador", "m3":"Alma del emperador", "m4":"Aliento del emperador"} }
         };
-        map["Planewalker"] = map["Campeón"]; 
-        map["Noble Lord"] = map["Lord"];
-        
+        map["Planewalker"] = map["Campeón"]; map["Noble Lord"] = map["Lord"];
         let namesToSet = (clase === "Lord" || clase === "Noble Lord") ? map[clase].all : (map[clase] && map[clase][equipo] ? map[clase][equipo] : {});
-        materialElements.material1.name = namesToSet.m1 || "Material 1"; 
-        materialElements.material2.name = namesToSet.m2 || "Material 2";
-        materialElements.material3.name = namesToSet.m3 || "Material 3"; 
-        materialElements.material4.name = namesToSet.m4 || "Material 4";
+        materialElements.material1.name = namesToSet.m1 || "Material 1"; materialElements.material2.name = namesToSet.m2 || "Material 2";
+        materialElements.material3.name = namesToSet.m3 || "Material 3"; materialElements.material4.name = namesToSet.m4 || "Material 4";
     }
 
     function updateMaterialStatesAndVisuals(nivel) {
         const nivelNum = parseInt(nivel.replace("Nvl ", ""));
         for (const matId in materialElements) {
             const mat = materialElements[matId];
-            mat.box.classList.remove('locked'); 
-            mat.colorMenu.disabled = false; 
-            mat.colorMenu.value = "Blanco";
-            mat.box.style.backgroundColor = colors["Blanco"]; 
-            mat.box.style.color = colors["text_color"];
+            mat.box.classList.remove('locked'); mat.colorMenu.disabled = false; mat.colorMenu.value = "Blanco";
+            mat.box.style.backgroundColor = colors["Blanco"]; mat.box.style.color = colors["text_color"];
             updateMaterialImageAndText(matId);
-            if (materialColorMenusVisible[matId]) { 
-                mat.colorMenu.style.display = 'none'; 
-                materialColorMenusVisible[matId] = false; 
-            }
+            if (materialColorMenusVisible[matId]) { mat.colorMenu.style.display = 'none'; materialColorMenusVisible[matId] = false; }
         }
         if (nivelNum === 1) { _lockMaterial("material3"); _lockMaterial("material4"); }
         else if (nivelNum === 2) { _lockMaterial("material4"); }
@@ -215,71 +174,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function _lockMaterial(matId) {
         const mat = materialElements[matId];
-        mat.box.classList.add('locked'); 
-        mat.box.style.backgroundColor = colors["locked_bg"]; 
-        mat.box.style.color = 'gray';
-        const deniedPath = `images/${deniedImageName}`;  // Ruta modificada
-        mat.image.src = deniedPath; 
-        mat.image.alt = mat.name + " (BLOQUEADO)";
-        mat.image.onload = () => { 
-            mat.image.style.display = 'block'; 
-            mat.text.style.display = 'none'; 
-        };
-        mat.image.onerror = () => { 
-            console.error("Error al cargar imagen bloqueada:", deniedPath);
-            mat.image.style.display = 'none'; 
-            mat.text.style.display = 'block'; 
-            mat.text.textContent = mat.name + " (BLOQUEADO)";
-        };
-        
-        if(mat.image.complete && mat.image.naturalHeight !== 0) {
-            mat.image.style.display = 'block'; 
-            mat.text.style.display = 'none';
-        }
-        else if (mat.image.complete) {
-            mat.image.style.display = 'none'; 
-            mat.text.style.display = 'block'; 
-            mat.text.textContent = mat.name + " (BLOQUEADO)";
-        }
+        mat.box.classList.add('locked'); mat.box.style.backgroundColor = colors["locked_bg"]; mat.box.style.color = 'gray';
+        const deniedPath = `images/${encodeURIComponent(deniedImageName)}`;
+        mat.image.src = deniedPath; mat.image.alt = mat.name + " (BLOQUEADO)";
+        mat.image.onload = () => { mat.image.style.display = 'block'; mat.text.style.display = 'none'; };
+        mat.image.onerror = () => { mat.image.style.display = 'none'; mat.text.style.display = 'block'; mat.text.textContent = mat.name + " (BLOQUEADO)"; /*console.error("Error img denied:", deniedPath);*/};
+        // Forzar visualización inicial
+        if(mat.image.complete && mat.image.naturalHeight !== 0) {mat.image.style.display = 'block'; mat.text.style.display = 'none';}
+        else if (mat.image.complete) {mat.image.style.display = 'none'; mat.text.style.display = 'block'; mat.text.textContent = mat.name + " (BLOQUEADO)";}
 
-        mat.colorMenu.disabled = true; 
-        mat.colorMenu.value = "Blanco";
-        if (materialColorMenusVisible[matId]) { 
-            mat.colorMenu.style.display = 'none'; 
-            materialColorMenusVisible[matId] = false; 
-        }
+
+        mat.colorMenu.disabled = true; mat.colorMenu.value = "Blanco";
+        if (materialColorMenusVisible[matId]) { mat.colorMenu.style.display = 'none'; materialColorMenusVisible[matId] = false; }
     }
 
     function updateMaterialImageAndText(matId) {
         const mat = materialElements[matId];
         if (mat.box.classList.contains('locked')) return;
-        
         const materialNameClean = mat.name.replace(" (LOCKED)", "").trim();
-        const imageNameWithExt = materialNameClean + ".png";
-        const imagePath = `images/${imageNameWithExt}`;  // Ruta modificada
+        const imageNameWithExt = materialNameClean.toLowerCase() + ".png"; // Convertir a minúsculas
+        const imagePath = `images/${encodeURIComponent(imageNameWithExt)}`; // Encode URI para espacios
 
-        mat.image.src = imagePath; 
-        mat.image.alt = materialNameClean;
-        mat.image.onload = () => { 
-            mat.image.style.display = 'block'; 
-            mat.text.style.display = 'none'; 
-        };
-        mat.image.onerror = () => { 
-            console.error("Error al cargar imagen material:", imagePath);
-            mat.image.style.display = 'none'; 
-            mat.text.style.display = 'block'; 
-            mat.text.textContent = materialNameClean;
-        };
-        
-        if(mat.image.complete && mat.image.naturalHeight !== 0) {
-            mat.image.style.display = 'block'; 
-            mat.text.style.display = 'none';
-        }
-        else if (mat.image.complete) {
-            mat.image.style.display = 'none'; 
-            mat.text.style.display = 'block'; 
-            mat.text.textContent = materialNameClean;
-        }
+        mat.image.src = imagePath; mat.image.alt = materialNameClean;
+        mat.image.onload = () => { mat.image.style.display = 'block'; mat.text.style.display = 'none'; };
+        mat.image.onerror = () => { mat.image.style.display = 'none'; mat.text.style.display = 'block'; mat.text.textContent = materialNameClean; /*console.warn("Error img material:", imagePath);*/};
+        // Forzar visualización inicial para imágenes que podrían estar en caché
+        if(mat.image.complete && mat.image.naturalHeight !== 0) {mat.image.style.display = 'block'; mat.text.style.display = 'none';}
+        else if (mat.image.complete) {mat.image.style.display = 'none'; mat.text.style.display = 'block'; mat.text.textContent = materialNameClean;}
+
+
     }
 
     function updateAllMaterialBoxBackgroundsAndImages() {
@@ -296,25 +219,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function controlLevelByClass(clase) {
         let currentLevelValue = nivelMenu.value, newNivelOptions = nivelOptionsAll, newNivelStateDisabled = false, newNivelValue = currentLevelValue;
-        if (clase === "Campeón") { 
-            newNivelOptions = ["Nvl 4"]; 
-            newNivelValue = "Nvl 4"; 
-            newNivelStateDisabled = true; 
-        }
-        else if (["Planewalker", "Lord", "Noble Lord"].includes(clase)) { 
-            newNivelOptions = ["Nvl 5"]; 
-            newNivelValue = "Nvl 5"; 
-            newNivelStateDisabled = true; 
-        }
-        populateSelect(nivelMenu, newNivelOptions, newNivelValue); 
-        nivelMenu.disabled = newNivelStateDisabled;
+        if (clase === "Campeón") { newNivelOptions = ["Nvl 4"]; newNivelValue = "Nvl 4"; newNivelStateDisabled = true; }
+        else if (["Planewalker", "Lord", "Noble Lord"].includes(clase)) { newNivelOptions = ["Nvl 5"]; newNivelValue = "Nvl 5"; newNivelStateDisabled = true; }
+        populateSelect(nivelMenu, newNivelOptions, newNivelValue); nivelMenu.disabled = newNivelStateDisabled;
         if (!newNivelOptions.includes(nivelMenu.value) && newNivelOptions.length > 0) nivelMenu.value = newNivelOptions[0];
     }
 
     function restrictColorOptions(clase, nivel) {
         let allowedColors = (clase === "Normal") ? colorOptionsAllList : ["Azul", "Morado", "Dorado"];
-        const currentColor = colorMenu.value; 
-        populateSelect(colorMenu, allowedColors, currentColor);
+        const currentColor = colorMenu.value; populateSelect(colorMenu, allowedColors, currentColor);
         if (!allowedColors.includes(colorMenu.value)) colorMenu.value = allowedColors.length > 0 ? allowedColors[0] : "Blanco";
     }
 
@@ -337,6 +250,5 @@ document.addEventListener('DOMContentLoaded', () => {
             else menu.classList.add(prefix + "blanco");
         });
     }
-
     init();
 });
