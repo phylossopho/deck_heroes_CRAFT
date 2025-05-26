@@ -1,3 +1,5 @@
+/* style.css */
+
 :root {
     --color-blanco: #fefefe;
     --color-verde: #b6e7b0;
@@ -24,7 +26,20 @@ body {
     border-radius: 8px;
 }
 
+/* Selectores principales compactos */
+#selectors_frame {
+    display: flex;
+    flex-direction: column; /* Apila los selectores en móvil por defecto */
+    gap: 10px; /* Espacio entre selectores */
+    margin-bottom: 20px;
+    align-items: center; /* Centra los selectores apilados */
+}
+
 #selectors_frame .form-select {
+    width: 90%; /* Ocupa casi todo el ancho disponible en móvil por defecto */
+    max-width: 300px; /* Limita el ancho máximo para pantallas muy anchas en vista móvil */
+    min-width: unset; /* Elimina el min-width para móviles */
+    flex-grow: 0; /* No expandir */
     border: 1px solid #555;
     font-weight: bold;
 }
@@ -33,68 +48,48 @@ body {
 .form-select.form-select-verde { background-color: var(--color-verde); color: var(--color-text); }
 .form-select.form-select-azul { background-color: var(--color-azul); color: var(--color-text); }
 .form-select.form-select-morado { background-color: var(--color-morado); color: var(--color-text); }
-.form-select.form-select-dorado { background-color: var(--color-dorado); color: #333; }
+.form-select.form-select-dorado { background-color: var(--color-dorado); color: var(--color-text); }
 
-.material-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80px;
-    margin: 0 15px;
-}
 
+/* Estilos para las cajas de material y base */
 .material-box {
-    width: 80px;
-    height: 80px;
-    border: 1px solid #555;
-    background-color: var(--color-default-bg);
-    color: var(--color-text);
+    width: 200px; /* Ancho fijo para PC */
+    height: 150px; /* Alto fijo para PC */
+    border: 2px solid #555;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    font-weight: bold;
-    font-size: 13px;
-    cursor: pointer;
     position: relative;
-    overflow: hidden;
-    padding: 5px;
-    box-sizing: border-box;
-    border-radius: 8px;
+    overflow: hidden; /* Asegura que la imagen no se salga */
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-.material-box.locked {
-    background-color: var(--color-locked-bg);
-    color: gray;
-    cursor: not-allowed;
+.material-image,
+.base-image {
+    max-width: 100%; /* Ajusta al ancho de la caja */
+    max-height: 100%; /* Ajusta al alto de la caja */
+    object-fit: contain; /* Asegura que la imagen se ajuste sin cortarse */
+    display: none; /* Controlado por JS */
+    position: absolute; /* Para centrar la imagen */
 }
 
-.material-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    display: none;
-}
-
-.material-text {
-    display: block;
-    word-wrap: break-word;
-}
-
-.material-color-menu, .base-color-menu {
-    width: 100%;
-    min-width: 80px;
-    max-width: 80px;
+/* Material Color Menus */
+.material-color-menu,
+.base-color-menu {
+    width: 100%; /* Ocupa el ancho del contenedor */
     margin-top: 5px;
-    display: none;
+    display: none; /* Controlado por JS */
 }
 
 /* Disposición de materiales */
 #materials_frame {
     position: relative;
-    height: 200px;
+    height: 200px; /* Puedes ajustar esta altura si es necesario para desktop */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Por defecto en columna para mobile, luego se cambia en desktop */
     justify-content: space-between;
     align-items: center;
 }
@@ -103,55 +98,129 @@ body {
     display: flex;
     justify-content: center;
     width: 100%;
+    gap: 10px; /* Un pequeño gap por defecto para móviles */
 }
 
-.top-row {
-    justify-content: center;
-    gap: 100px; /* Separación entre material 3 y 4 */
+/* FRAME material container */
+.material-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar el box y el selector de color */
+    margin: 5px; /* Espacio alrededor de cada material container */
 }
 
-.bottom-row {
-    justify-content: center;
-    gap: 60px; /* Separación entre material 1 y 2 */
-}
 
 #base_frame {
     display: flex;
     justify-content: center;
-    margin-top: 0px;
+    margin-top: 0px; /* Ya es 0px en desktop, pero es bueno ser explícito para mobile */
 }
 
-/* Añade esto al final de tu style.css */
+/* ---------------------------------------------------- */
+/* MEDIA QUERIES PARA ADAPTAR A DISPOSITIVOS MÓVILES */
+/* ---------------------------------------------------- */
 
-/* Selectores principales compactos */
-#selectors_frame {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+@media (max-width: 768px) {
+    /* General para pantallas más pequeñas */
+    .container {
+        padding: 10px; /* Reduce el padding del contenedor */
+    }
+
+    /* Selectores principales compactos */
+    #selectors_frame .form-select {
+        width: 95%; /* Ajusta un poco más el ancho en móviles */
+        max-width: 280px; /* Limita para pantallas más grandes pero aún móviles */
+    }
+
+    /* Ajuste de tamaño para las cajas de material */
+    .material-box {
+        width: 120px; /* Ancho más pequeño para móviles */
+        height: 90px; /* Alto más pequeño para móviles */
+        font-size: 0.8em; /* Reduce el tamaño de fuente */
+    }
+
+    /* Ajuste para los materiales y la base */
+    #materials_frame {
+        height: auto; /* Altura automática para adaptarse al contenido */
+        gap: 10px; /* Espacio entre filas */
+    }
+
+    .top-row, .bottom-row {
+        flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+        justify-content: center;
+        gap: 10px; /* Reduce el gap para móviles */
+    }
+
+    /* Ajuste para el marco base */
+    #base_frame .material-box {
+        width: 160px; /* Un poco más grande que los materiales individuales */
+        height: 120px;
+        font-size: 0.9em;
+    }
 }
 
-#selectors_frame .form-select {
-    width: auto;
-    min-width: 120px; /* Ancho mínimo para que se vea bien el texto */
-    flex-grow: 0; /* Evita que se expandan */
+@media (max-width: 480px) {
+    /* Ajustes aún más pequeños para teléfonos muy pequeños */
+    .material-box {
+        width: 100px; /* Ancho aún más pequeño */
+        height: 75px; /* Alto aún más pequeño */
+        font-size: 0.7em;
+    }
+
+    #base_frame .material-box {
+        width: 140px;
+        height: 105px;
+        font-size: 0.8em;
+    }
+
+    /* Si quieres que los materiales se apilen individualmente en pantallas muy pequeñas */
+    .material-row {
+        flex-direction: column; /* Apila los materiales en una sola columna */
+        align-items: center; /* Centra los elementos apilados */
+    }
 }
 
-/* Ajuste de posición de materiales */
-.top-row {
-    gap: 240px !important; /* Separación aumentada a 200px entre 3 y 4 */
-    margin-bottom: 0px; /* Más espacio entre filas */
-}
+/* Estilos para pantallas grandes (desktop) - revertir o asegurar el layout */
+@media (min-width: 769px) {
+    #selectors_frame {
+        flex-direction: row; /* Vuelve a la fila para desktop */
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        /* align-items no es tan crítico aquí ya que estarán en una fila */
+    }
 
-.bottom-row {
-    gap: 60px; /* Mantenemos 60px entre 1 y 2 */
-}
+    #selectors_frame .form-select {
+        width: auto; /* Permite que el ancho se ajuste al contenido o a min-width */
+        min-width: 120px; /* Ancho mínimo para que se vea bien el texto */
+        flex-grow: 1; /* Permitir que crezcan un poco, pero no demasiado */
+    }
 
-/* Centrado perfecto */
-#materials_frame {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 250px; /* Aumentamos altura para mejor espaciado */
+    #materials_frame {
+        height: 200px; /* Vuelve a la altura fija para desktop */
+        flex-direction: row; /* Vuelve a la fila principal para los grupos de materiales */
+        justify-content: space-around; /* Distribuye las filas de materiales */
+    }
+
+    .top-row {
+        gap: 100px; /* Restaurar la separación original para desktop */
+        /* justify-content: center; */ /* Ya está definido en .material-row */
+    }
+
+    .bottom-row {
+        gap: 60px; /* Restaurar la separación original para desktop */
+        /* justify-content: center; */ /* Ya está definido en .material-row */
+    }
+
+    .material-box {
+        width: 200px; /* Restaurar ancho para desktop */
+        height: 150px; /* Restaurar alto para desktop */
+        font-size: 1em; /* Restaurar tamaño de fuente */
+    }
+
+    #base_frame .material-box {
+        width: 200px; /* Restaurar ancho para desktop */
+        height: 150px; /* Restaurar alto para desktop */
+        font-size: 1em;
+    }
 }
